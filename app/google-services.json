@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "847057691550",
+    "firebase_url": "https://radiobassar.firebaseio.com",
+    "project_id": "radiobassar",
+    "storage_bucket": "radiobassar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847057691550:android:7667b5b8b27045e71eac8f",
+        "android_client_info": {
+          "package_name": "com.kodehauz.radiobasar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847057691550-aod4buufims9avhnq2v2iblmts0dde0p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kodehauz.radiobasar",
+            "certificate_hash": "f029de9f20dd4e3769b79f6d4b2dba9a21ea52a7"
+          }
+        },
+        {
+          "client_id": "847057691550-7f5euqgvmrpesadn6tpj60sukfnq6l2v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2JviUalmodcOw4nJOK42qDhppVFE_tx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847057691550-7f5euqgvmrpesadn6tpj60sukfnq6l2v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
