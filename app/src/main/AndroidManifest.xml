@@ -19,16 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< HEAD
 
         <receiver
             android:name=".utils.NotificationActionService"
             android:enabled="true"
             android:exported="false">
         </receiver>
-=======
         <activity android:name=".MainActivity"/>
->>>>>>> origin/splashScreen
+
     </application>
 
 </manifest>

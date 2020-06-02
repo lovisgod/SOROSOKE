@@ -54,6 +54,16 @@ class MainActivity : AppCompatActivity(), Playable {
     }
 
     private fun startPlaying() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationManager = this@MainActivity.getSystemService(
+                NotificationManager::class.java
+            )
+            notificationManager?.sendNotification(
+                "hello",
+                this@MainActivity,
+                R.drawable.ic_pause_black_24dp
+            )
+        }
         player.start()
         playButton.text = "Stop"
     }
