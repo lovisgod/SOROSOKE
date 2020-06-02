@@ -71,7 +71,6 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setContentTitle(applicationContext.
             resources.getString(R.string.notification_title))
             .setContentText(messageBody)
-//            .setShowWhen(false)
             .setContentIntent(contentPendingIntent)
             .setOnlyAlertOnce(true)
             .addAction(
