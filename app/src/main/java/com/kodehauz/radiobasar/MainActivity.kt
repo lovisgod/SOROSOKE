@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), Playable {
         registerReceiver(broadcastReceiver, IntentFilter("TRACK TRACK"))
         startService(Intent(baseContext, OnClearFromRecentService::class.java))
         initializeMediaPlayer()
-        showNotification()
         playButton = findViewById(R.id.play)
         playButton.setOnClickListener {
             if (playing) {
@@ -54,17 +53,8 @@ class MainActivity : AppCompatActivity(), Playable {
     }
 
     private fun startPlaying() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = this@MainActivity.getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager?.sendNotification(
-                "hello",
-                this@MainActivity,
-                R.drawable.ic_pause_black_24dp
-            )
-        }
         player.start()
+        showNotification(R.drawable.ic_pause_black_24dp)
         playButton.text = "Stop"
     }
 
@@ -72,6 +62,7 @@ class MainActivity : AppCompatActivity(), Playable {
         if (player.isPlaying) {
             player.pause()
             playButton.text  = "Play"
+            showNotification(R.drawable.ic_play_arrow_black_24dp)
         }
     }
 
@@ -99,34 +90,15 @@ class MainActivity : AppCompatActivity(), Playable {
     }
 
     override fun onPlay() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = this@MainActivity.getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager?.sendNotification(
-                "hello",
-                this@MainActivity,
-                R.drawable.ic_pause_black_24dp
-            )
-        }
         startPlaying()
+        showNotification(R.drawable.ic_pause_black_24dp)
         playing = true
     }
 
     override fun onTrackPause() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager = this@MainActivity.getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager?.sendNotification(
-                "hello",
-                this@MainActivity,
-                R.drawable.ic_play_arrow_black_24dp
-            )
-        }
-
-       pausePlaying()
-       playing = false
+        pausePlaying()
+        showNotification(R.drawable.ic_play_arrow_black_24dp)
+        playing = false
     }
 
     override fun onPause() {
@@ -182,7 +154,7 @@ class MainActivity : AppCompatActivity(), Playable {
     }
 
 
-    private fun showNotification() {
+    private fun showNotification(playBtn:Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager = this.getSystemService(
                 NotificationManager::class.java
@@ -190,7 +162,7 @@ class MainActivity : AppCompatActivity(), Playable {
             notificationManager?.sendNotification(
                 "Listen to life",
                 this,
-                R.drawable.ic_play_arrow_black_24dp
+                playBtn
             )
         }
     }
