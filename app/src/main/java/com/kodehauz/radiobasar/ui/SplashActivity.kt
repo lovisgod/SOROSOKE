@@ -1,4 +1,4 @@
-package com.kodehauz.radiobasar
+package com.kodehauz.radiobasar.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import com.kodehauz.radiobasar.R
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var topAnim: Animation
@@ -21,7 +22,9 @@ class SplashActivity : AppCompatActivity() {
         )
         setContentView(R.layout.activity_splash)
 
-        topAnim = AnimationUtils.loadAnimation(this, R.anim.top_animation)
+        topAnim = AnimationUtils.loadAnimation(this,
+            R.anim.top_animation
+        )
 
         image = findViewById(R.id.imageView)
 

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
-import com.kodehauz.radiobasar.MainActivity
+import com.kodehauz.radiobasar.ui.MainActivity
 import com.kodehauz.radiobasar.R
 import java.lang.Exception
 

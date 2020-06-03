@@ -4,4 +4,12 @@
     <string name="notification_title">RadioBasar</string>
     <string name="egg_notification_channel_name" translatable="true">Radio</string>
     <string name="play">play</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about_us">About us</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="_20000">20000</string>
+    <string name="comment">comment</string>
+    <string name="like_button">Like Button</string>
+    <string name="share_button">Share Button</string>
 </resources>
