@@ -1,4 +1,4 @@
-package com.kodehauz.radiobasar.ui
+package com.kodehauz.radiobasar.ui.activity
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,11 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -19,17 +24,14 @@ import com.github.loadingview.LoadingDialog
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.kodehauz.radiobasar.R
-import com.kodehauz.radiobasar.utils.OnClearFromRecentService
-import com.kodehauz.radiobasar.utils.Playable
-import com.kodehauz.radiobasar.utils.cancalNotifications
-import com.kodehauz.radiobasar.utils.sendNotification
+import com.kodehauz.radiobasar.utils.*
 import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var appBarLayout: AppBarLayout
-    private lateinit var toolbar: MaterialToolbar
+    private lateinit var toolbar: Toolbar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,8 +39,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         appBarLayout = findViewById(R.id.tool_bar_layout)
         toolbar = findViewById(R.id.tool_bar)
+        toolbar.inflateMenu(R.menu.app_menu)
         navController = Navigation.findNavController(this, R.id.app_nav_host_fragment)
         NavigationUI.setupWithNavController(toolbar, navController)
+
+        volumeControlStream = AudioManager.STREAM_MUSIC
 
 
     }
