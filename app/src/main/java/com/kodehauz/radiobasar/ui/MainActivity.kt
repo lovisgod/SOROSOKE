@@ -14,6 +14,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.github.loadingview.LoadingDialog
 import com.google.android.material.appbar.AppBarLayout
@@ -37,9 +38,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         appBarLayout = findViewById(R.id.tool_bar_layout)
         toolbar = findViewById(R.id.tool_bar)
+        toolbar.inflateMenu(R.menu.app_menu)
         navController = Navigation.findNavController(this, R.id.app_nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
         NavigationUI.setupWithNavController(toolbar, navController)
-
+        toolbar.setOnMenuItemClickListener {
+            return@setOnMenuItemClickListener when(it.itemId){
+                R.id.contactFragment -> {
+                    navController.navigate(R.id.contactFragment)
+                    true
+                }
+                R.id.aboutFragment -> {
+                    navController.navigate(R.id.aboutFragment)
+                    true
+                }
+                else -> false
+            }
+        }
 
     }
 }
