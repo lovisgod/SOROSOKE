@@ -29,6 +29,7 @@ import com.kodehauz.radiobasar.utils.Playable
 import com.kodehauz.radiobasar.utils.cancalNotifications
 import com.kodehauz.radiobasar.utils.sendNotification
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
+import kotlinx.android.synthetic.main.fragment_player.*
 import java.io.IOException
 
 
@@ -71,7 +72,16 @@ class PlayerFragment : Fragment(),  Playable {
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
 
-
+//        share_btn.setOnClickListener {
+//            val message: String = "This is shared"
+//
+//            val intent: Intent
+//            intent.action = Intent.ACTION_SEND
+//            intent.putExtra(Intent.EXTRA_TEXT, message)
+//            intent.type = "text/plain"
+//
+//            startActivity(Intent.createChooser(intent, "Share to: "))
+//        }
         createChannel(
             getString(R.string.radio_notification_channel_id),
             getString(R.string.egg_notification_channel_name)
@@ -93,7 +103,10 @@ class PlayerFragment : Fragment(),  Playable {
         }
 
        return binding.root
+
+
     }
+
 
     private fun startPlaying() {
         player.start()
@@ -236,4 +249,7 @@ class PlayerFragment : Fragment(),  Playable {
         fun newInstance() =
             PlayerFragment()
     }
+
+
+
 }
