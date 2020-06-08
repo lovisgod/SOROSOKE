@@ -7,7 +7,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_us">About us</string>
-    <string name="contact_us">Contact Us</string>
     <string name="_20000">20000</string>
     <string name="comment">comment</string>
     <string name="like_button">Like Button</string>
@@ -15,4 +14,11 @@
     <string name="az">AZ</string>
     <string name="comment_sample">This is a comment that may have to break later</string>
     <string name="hint_write_comment">Add comment</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="please_fill_this_form_in_a_decent_manner">Please fill this form in a decent manner</string>
+    <string name="full_name">Full Name</string>
+    <string name="email_contact">Email</string>
+    <string name="example_example_com">example@example.com</string>
+    <string name="message">Message</string>
+    <string name="submit_contact">Submit</string>
 </resources>
