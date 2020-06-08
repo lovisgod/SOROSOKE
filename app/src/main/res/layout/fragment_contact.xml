@@ -56,13 +56,24 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"/>
 
-   <com.google.android.material.textfield.TextInputEditText
-       android:id="@+id/fullName"
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:paddingStart="10dp"
-       android:paddingEnd="10dp"
-   />
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="@string/full_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fullName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+
+            />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView10"
@@ -76,23 +87,22 @@
         android:paddingEnd="10dp"
         android:fontFamily="@font/gotham_black"/>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/email"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        />
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="@string/example_example_com">
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/example_example_com"
-        android:paddingStart="15dp"
-        android:paddingEnd="10dp"
-        android:fontFamily="@font/gotham_thin"
-        android:textColor="#000000"/>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView12"
@@ -106,26 +116,38 @@
         android:layout_marginTop="10dp"
         android:textSize="15sp"/>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/message"
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="199dp"
-        android:inputType="textMultiLine"
-        android:paddingStart="15dp"
-        android:paddingEnd="10dp"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="@color/black"
+        android:textColorHint="@color/black"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="10dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         app:cardCornerRadius="9dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="10dp"
 
         >
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:text="@string/submit_contact"
             android:textColor="#FFFFFF"
