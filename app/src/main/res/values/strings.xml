@@ -12,4 +12,7 @@
     <string name="comment">comment</string>
     <string name="like_button">Like Button</string>
     <string name="share_button">Share Button</string>
+    <string name="az">AZ</string>
+    <string name="comment_sample">This is a comment that may have to break later</string>
+    <string name="hint_write_comment">Add comment</string>
 </resources>

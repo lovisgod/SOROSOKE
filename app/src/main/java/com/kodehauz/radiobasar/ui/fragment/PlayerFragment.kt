@@ -28,6 +28,7 @@ import com.github.loadingview.LoadingDialog
 import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.databinding.FragmentPlayerBinding
 import com.kodehauz.radiobasar.models.AppEvent
+import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
 import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
 import org.greenrobot.eventbus.EventBus
@@ -133,6 +134,11 @@ class PlayerFragment : Fragment(),  Playable {
                 println(muted)
                 binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.redcolor), PorterDuff.Mode.SRC_ATOP);
             }
+        }
+
+        binding.commentBtn.setOnClickListener{
+            val bottomSheet = CommentBottomSheet.newInstance(R.layout.comment_layout, viewModel)
+            bottomSheet?.show(this.requireActivity().supportFragmentManager.beginTransaction(), "dialog_comment")
         }
        return binding.root
     }
