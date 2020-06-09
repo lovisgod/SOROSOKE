@@ -7,7 +7,7 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v4.media.session.MediaSessionCompat
 import androidx.core.app.NotificationCompat
-import com.kodehauz.radiobasar.ui.MainActivity
+import com.kodehauz.radiobasar.ui.activity.MainActivity
 import com.kodehauz.radiobasar.R
 import java.lang.Exception
 
@@ -66,7 +66,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         val builder = NotificationCompat.Builder(
             applicationContext, applicationContext.resources.getString(R.string.radio_notification_channel_id)
         )
-            .setSmallIcon(R.drawable.ic_radio_icons_01)
+            .setSmallIcon(R.drawable.ic_basar_icon)
             .setLargeIcon(radioImage)
             .setContentTitle(applicationContext.
             resources.getString(R.string.notification_title))
@@ -81,7 +81,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
             .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
                 .setShowActionsInCompactView(0)
                 .setMediaSession(mediaSession.sessionToken))
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
 
         // add play action
 

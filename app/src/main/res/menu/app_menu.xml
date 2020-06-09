@@ -3,12 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/aboutFragment"
+        android:id="@+id/nav_about"
         android:title="@string/about_us"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
     <item
-        android:id="@+id/contactFragment"
+        android:id="@+id/nav_contact"
         android:title="@string/contact_us"
         app:showAsAction="never" />
 </menu>
