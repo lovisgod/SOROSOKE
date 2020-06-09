@@ -34,7 +34,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_basar_white">
+                    android:src="@drawable/ic_white_icon">
                 </com.google.android.material.imageview.ShapeableImageView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

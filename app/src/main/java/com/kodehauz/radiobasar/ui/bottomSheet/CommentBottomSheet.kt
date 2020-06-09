@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.google.android.material.textfield.TextInputEditText
 import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.models.Comment
 import com.kodehauz.radiobasar.ui.adapter.CommentAdapter

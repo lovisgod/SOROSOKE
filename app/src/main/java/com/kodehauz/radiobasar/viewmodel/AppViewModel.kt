@@ -17,6 +17,8 @@ class AppViewModel(application: Application): ViewModel() {
 
     }
 
+    fun submitUserData(name: String, email:String) = appRepo.getUserDetails(name, email)
+
 
 
     /**

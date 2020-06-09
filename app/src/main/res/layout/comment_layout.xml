@@ -61,7 +61,7 @@
             android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             android:padding="15dp"
-            android:drawableEnd="@drawable/ic_comment_icon"/>
+            android:drawableEnd="@drawable/ic_sent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
