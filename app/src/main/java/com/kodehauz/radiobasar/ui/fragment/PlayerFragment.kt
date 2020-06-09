@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.annotation.RequiresApi
@@ -31,6 +32,7 @@ import com.kodehauz.radiobasar.models.AppEvent
 import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
 import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
+import kotlinx.android.synthetic.main.fragment_player.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -54,6 +56,7 @@ class PlayerFragment : Fragment(),  Playable {
     val ACTION_PLAY = "PLAY"
     val ACTION_PAUSE = "PAUSE"
     var initialProgressValue = 0
+    private lateinit var mShare : Button
 
 
     private val viewModel: AppViewModel by lazy {
@@ -120,6 +123,15 @@ class PlayerFragment : Fragment(),  Playable {
             }
         }
 
+        binding.shareBtn.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND)
+            myIntent.type = "text/plain"
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, "RADIO BASAR")
+            val shareMessage = "download this app"
+            myIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            startActivity(Intent.createChooser(myIntent,"Share via"))
+        }
+
         binding.sound.setOnClickListener {
             if ( muted ) {
                 appAudioManager.unMuteVolume(audioManager)
@@ -146,6 +158,10 @@ class PlayerFragment : Fragment(),  Playable {
     private fun startPlaying() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             appAudioManager.requestFocus(audioManager)
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            appAudioManager.requestFocusLowerVersion(audioManager)
         }
 //        player.start()
         showNotification(R.drawable.ic_pause_black_24dp)
