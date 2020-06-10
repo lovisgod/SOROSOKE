@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
@@ -20,7 +21,6 @@ class AppRepo() {
     val db = Firebase.firestore
     val userCountRef = db.collection("installationCount").document("userNumber")
     val commentRef = db.collection("comments")
-    var comments = ArrayList<Comment>()
 
     fun getUserDetails(name: String, email: String) {
         auth.createUserWithEmailAndPassword(email, name)
@@ -63,54 +63,8 @@ class AppRepo() {
             }
     }
 
-    fun getUserComments(): ArrayList<Comment> {
-        commentRef.get().addOnSuccessListener {
-            if (it != null) {
-                val commentList = ArrayList<Comment>()
-                for (document in it) {
-                    val data = document.data
-                    val name = data.get("name")
-                    val comment = data.get("comment")
-                    val time = data.get("time")
-                    commentList.add(
-                        Comment(
-                            name = name.toString(),
-                            comment = comment.toString(),
-                            time = time.toString()
-                        )
-                    )
-                }
-                comments = commentList
-                println(comments)
-            }
-        }
-        commentRef.addSnapshotListener { querySnapShot, excception ->
-            if (querySnapShot != null) {
-                val commentList = ArrayList<Comment>()
-                for (document in querySnapShot) {
-                    val data = document.data
-                    val name = data.get("name")
-                    val comment = data.get("comment")
-                    val time = data.get("time")
-                    commentList.add(
-                        Comment(
-                            name = name.toString(),
-                            comment = comment.toString(),
-                            time = time.toString()
-                        )
-                    )
-                }
-                comments = commentList
-                println(comments)
-            }
-        }
-
-        commentRef.get().addOnFailureListener {
-            EventBus.getDefault()
-                .post(ErrorEvent(event = "commentListError", message = it.message!!))
-        }
-
-        return comments
+    fun getUserComments(): CollectionReference {
+        return commentRef
     }
 
 }

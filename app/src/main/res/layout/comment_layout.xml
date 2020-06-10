@@ -52,7 +52,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
 
-        <com.mindorks.editdrawabletext.EditDrawableText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,8 +60,18 @@
             android:background="@drawable/comment_bg"
             android:layout_margin="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="15dp"
-            android:drawableEnd="@drawable/ic_sent"/>
+            android:padding="15dp" />
+
+      <com.google.android.material.imageview.ShapeableImageView
+          android:id="@+id/sent_icon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:layout_constraintRight_toRightOf="@+id/input_comment"
+          app:layout_constraintBottom_toBottomOf="@+id/input_comment"
+          android:layout_marginEnd="@dimen/twenty_dp"
+          android:layout_marginBottom="@dimen/twenty_dp"
+          android:src="@drawable/ic_sent">
+      </com.google.android.material.imageview.ShapeableImageView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

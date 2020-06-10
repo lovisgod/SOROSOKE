@@ -1,20 +1,29 @@
 package com.kodehauz.radiobasar.ui.bottomSheet
 
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textfield.TextInputEditText
 import com.kodehauz.radiobasar.R
+import com.kodehauz.radiobasar.models.AppEvent
 import com.kodehauz.radiobasar.models.Comment
+import com.kodehauz.radiobasar.models.ErrorEvent
 import com.kodehauz.radiobasar.ui.adapter.CommentAdapter
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
 import com.mindorks.editdrawabletext.DrawablePosition
 import com.mindorks.editdrawabletext.EditDrawableText
 import com.mindorks.editdrawabletext.onDrawableClickListener
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class CommentBottomSheet(var layout: Int, var viewmodel: AppViewModel): BottomSheetDialogFragment() {
     private lateinit var adapter :CommentAdapter
@@ -31,6 +40,7 @@ class CommentBottomSheet(var layout: Int, var viewmodel: AppViewModel): BottomSh
         return super.onCreateDialog(savedInstanceState)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,26 +54,23 @@ class CommentBottomSheet(var layout: Int, var viewmodel: AppViewModel): BottomSh
                 LinearLayoutManager.VERTICAL, false)
             recy.adapter = adapter
 
-            val comment1 = Comment(name = "Ayooluwa", comment = "This is my comment and it's a demo data")
-            val comment2 = Comment(name = "Mayowa", comment = "This is mayowa's comment coming in here")
 
-            commentList.add(comment1)
-            commentList.add(comment2)
-            adapter.setDataList(commentList)
-            val comment_input: EditDrawableText = view.findViewById(R.id.input_comment)
-            comment_input.setDrawableClickListener(object : onDrawableClickListener {
-                override fun onClick(target: DrawablePosition) {
-                    when (target) {
-                        DrawablePosition.RIGHT -> {
-                            println(comment_input.text.toString())
-                        }
-
-                    }
+            viewmodel._commentList.observe(viewLifecycleOwner, Observer {
+                if (it.isNotEmpty()) {
+                    adapter.setDataList(it)
                 }
             })
+            val comment_input: TextInputEditText = view.findViewById(R.id.input_comment)
+            val sendBtn : ShapeableImageView = view.findViewById(R.id.sent_icon)
+            sendBtn.setOnClickListener {
+                println(comment_input.text.toString())
+                viewmodel.submitComment(comment = comment_input.text.toString())
+                comment_input.setText("")
+            }
         }
 
 
         return  view
     }
+
 }

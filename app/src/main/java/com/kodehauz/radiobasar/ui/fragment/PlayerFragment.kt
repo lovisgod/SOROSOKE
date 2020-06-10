@@ -19,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
@@ -336,7 +337,7 @@ class PlayerFragment : Fragment(),  Playable {
             }
 
             "commentSubmitSuccess" -> {
-                Dialog().makeSnack(binding.commentBtn, "Comment submitted successful", this.requireContext())
+                println("success")
             }
 
         }

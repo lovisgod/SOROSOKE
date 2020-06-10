@@ -7,6 +7,7 @@ import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.github.loadingview.LoadingDialog
@@ -22,6 +23,14 @@ class Dialog {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
             .setBackgroundTint(context.getColor(R.color.colorAccent))
             .show()
+    }
+
+    fun makeToast(message: String, context: Context) {
+        val toast = Toast.makeText(context, message, Toast.LENGTH_LONG)
+        val view = toast.view
+        view.background = context.getDrawable(R.drawable.comment_bg)
+        toast.show()
+
     }
 
     @SuppressLint("MissingPermission")
