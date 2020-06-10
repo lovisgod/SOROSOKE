@@ -1,4 +1,4 @@
-package com.kodehauz.radiobasar.ui
+package com.kodehauz.radiobasar.ui.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

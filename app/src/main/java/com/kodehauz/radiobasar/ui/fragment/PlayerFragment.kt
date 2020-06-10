@@ -1,12 +1,15 @@
-package com.kodehauz.radiobasar.ui
+package com.kodehauz.radiobasar.ui.fragment
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.AUDIO_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -14,9 +17,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.MediaController
+import android.widget.SeekBar
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -24,11 +27,13 @@ import androidx.navigation.Navigation
 import com.github.loadingview.LoadingDialog
 import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.databinding.FragmentPlayerBinding
-import com.kodehauz.radiobasar.utils.OnClearFromRecentService
-import com.kodehauz.radiobasar.utils.Playable
-import com.kodehauz.radiobasar.utils.cancalNotifications
-import com.kodehauz.radiobasar.utils.sendNotification
+import com.kodehauz.radiobasar.models.AppEvent
+import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
+import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.IOException
 
 
@@ -41,10 +46,14 @@ class PlayerFragment : Fragment(),  Playable {
     private lateinit var binding: FragmentPlayerBinding
     private lateinit var navController: NavController
     private lateinit var player: MediaPlayer
+    private lateinit var appAudioManager: AppAudioManger
+    private lateinit var audioManager: AudioManager
     private var playing: Boolean = false
+    private var muted: Boolean = false
     private lateinit var playButton: ImageView
     val ACTION_PLAY = "PLAY"
     val ACTION_PAUSE = "PAUSE"
+    var initialProgressValue = 0
 
 
     private val viewModel: AppViewModel by lazy {
@@ -61,16 +70,36 @@ class PlayerFragment : Fragment(),  Playable {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        initializeMediaPlayer()
+        audioManager  = this.requireContext().getSystemService(AUDIO_SERVICE) as AudioManager
         navController = Navigation.findNavController(this.requireActivity(), R.id.app_nav_host_fragment)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_player, container, false)
         binding.viewmodel = viewModel
         binding.lifecycleOwner = this
+        appAudioManager = AppAudioManger(player, audioManager)
+        binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
+        binding.volume.max = appAudioManager.getMaxVolume(audioManager)
+        println(binding.volume.max)
+        initialProgressValue = binding.volume.max
+        binding.volume.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                appAudioManager.setVolume(audioManager, progress)
+            }
 
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+        })
 
         createChannel(
             getString(R.string.radio_notification_channel_id),
@@ -78,7 +107,6 @@ class PlayerFragment : Fragment(),  Playable {
         )
         this.requireActivity().registerReceiver(broadcastReceiver, IntentFilter("TRACK TRACK"))
         this.requireActivity().startService(Intent(this.requireActivity().baseContext, OnClearFromRecentService::class.java))
-        initializeMediaPlayer()
         playButton = binding.play
         playButton.setOnClickListener {
             if (playing) {
@@ -92,11 +120,34 @@ class PlayerFragment : Fragment(),  Playable {
             }
         }
 
+        binding.sound.setOnClickListener {
+            if ( muted ) {
+                appAudioManager.unMuteVolume(audioManager)
+                muted = false
+                println(muted)
+                binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
+            }
+
+            else {
+                appAudioManager.muteVolume(audioManager)
+                muted = true
+                println(muted)
+                binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.redcolor), PorterDuff.Mode.SRC_ATOP);
+            }
+        }
+
+        binding.commentBtn.setOnClickListener{
+            val bottomSheet = CommentBottomSheet.newInstance(R.layout.comment_layout, viewModel)
+            bottomSheet?.show(this.requireActivity().supportFragmentManager.beginTransaction(), "dialog_comment")
+        }
        return binding.root
     }
 
     private fun startPlaying() {
-        player.start()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            appAudioManager.requestFocus(audioManager)
+        }
+//        player.start()
         showNotification(R.drawable.ic_pause_black_24dp)
         playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
     }
@@ -115,12 +166,12 @@ class PlayerFragment : Fragment(),  Playable {
         dailog.show()
         player = MediaPlayer()
         val url = "http://159.65.180.178:8550/;live.mp3"
+//        val url = "https://s25.myradiostream.com/15102/listen.mp3"
         try {
             player.setDataSource(url)
             player.prepareAsync()
             player.setOnBufferingUpdateListener { _, percent ->  println(percent) }
             player.setOnPreparedListener {
-                println("this gets here")
                 dailog.hide()
             }
         } catch (e: IllegalArgumentException) {
@@ -157,10 +208,14 @@ class PlayerFragment : Fragment(),  Playable {
         if (player.isPlaying) {
 
         }
+        // unregister the event listener
+        EventBus.getDefault().unregister(this)
     }
 
     override fun onStart() {
         super.onStart()
+        // registers the event listener
+        EventBus.getDefault().register(this)
 
     }
 
@@ -235,5 +290,18 @@ class PlayerFragment : Fragment(),  Playable {
         @JvmStatic
         fun newInstance() =
             PlayerFragment()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAppEvent(event: AppEvent) {
+
+        when(event.event) {
+            "pause" -> {
+                playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+                showNotification(R.drawable.ic_play_arrow_black_24dp)
+            }
+
+        }
     }
 }
