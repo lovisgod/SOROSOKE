@@ -9,9 +9,9 @@
     <application
         android:name=".MainApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_basar_icon"
+        android:icon="@drawable/ic_new_main_radio_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_basar_icon"
+        android:roundIcon="@drawable/ic_new_main_radio_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">

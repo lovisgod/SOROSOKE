@@ -33,7 +33,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    android:src="@drawable/ic_radio_icons_09">
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_white_icon">
                 </com.google.android.material.imageview.ShapeableImageView>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

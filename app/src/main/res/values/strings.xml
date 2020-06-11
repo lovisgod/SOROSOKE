@@ -18,6 +18,7 @@
     <string name="example_example_com">example@example.com</string>
     <string name="message">Message</string>
     <string name="submit_contact">Submit</string>
+    <string name="save">Save</string>
     <string name="hint_write_comment">comment</string>
     <string name="az">az</string>
     <string name="comment_sample">Comment here</string>

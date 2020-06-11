@@ -20,7 +20,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -29,10 +31,12 @@ import com.github.loadingview.LoadingDialog
 import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.databinding.FragmentPlayerBinding
 import com.kodehauz.radiobasar.models.AppEvent
+import com.kodehauz.radiobasar.models.ErrorEvent
 import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
 import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
-import kotlinx.android.synthetic.main.fragment_player.*
+
+import com.pixplicity.easyprefs.library.Prefs
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -56,6 +60,8 @@ class PlayerFragment : Fragment(),  Playable {
     val ACTION_PLAY = "PLAY"
     val ACTION_PAUSE = "PAUSE"
     var initialProgressValue = 0
+    val playerManager = PlayerManager()
+    private lateinit var dataDialog: AlertDialog
     private lateinit var mShare : Button
 
 
@@ -79,6 +85,7 @@ class PlayerFragment : Fragment(),  Playable {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        player = playerManager
         initializeMediaPlayer()
         audioManager  = this.requireContext().getSystemService(AUDIO_SERVICE) as AudioManager
         navController = Navigation.findNavController(this.requireActivity(), R.id.app_nav_host_fragment)
@@ -88,7 +95,6 @@ class PlayerFragment : Fragment(),  Playable {
         appAudioManager = AppAudioManger(player, audioManager)
         binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
         binding.volume.max = appAudioManager.getMaxVolume(audioManager)
-        println(binding.volume.max)
         initialProgressValue = binding.volume.max
         binding.volume.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -149,13 +155,28 @@ class PlayerFragment : Fragment(),  Playable {
         }
 
         binding.commentBtn.setOnClickListener{
-            val bottomSheet = CommentBottomSheet.newInstance(R.layout.comment_layout, viewModel)
-            bottomSheet?.show(this.requireActivity().supportFragmentManager.beginTransaction(), "dialog_comment")
+            val firstTimeComment = Prefs.getBoolean("first_time_comment", false)
+            if (!firstTimeComment){
+                println(firstTimeComment)
+                dataDialog = Dialog().displayInputContactDialog(this.requireContext(), viewModel)!!
+                dataDialog.show()
+            } else {
+                val bottomSheet = CommentBottomSheet.newInstance(R.layout.comment_layout, viewModel)
+                bottomSheet?.show(this.requireActivity().supportFragmentManager.beginTransaction(), "dialog_comment")
+            }
+
+        }
+
+        if (player.isPlaying) {
+            playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
+            showNotification(R.drawable.ic_pause_black_24dp)
+            playing = true
         }
        return binding.root
     }
 
     private fun startPlaying() {
+        playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             appAudioManager.requestFocus(audioManager)
         }
@@ -164,51 +185,57 @@ class PlayerFragment : Fragment(),  Playable {
             appAudioManager.requestFocusLowerVersion(audioManager)
         }
 //        player.start()
+        playing = true
         showNotification(R.drawable.ic_pause_black_24dp)
-        playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
     }
 
     private fun pausePlaying() {
         if (player.isPlaying) {
-            player.pause()
             playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+            player.pause()
+            playing = false
             showNotification(R.drawable.ic_play_arrow_black_24dp)
         }
     }
 
     private fun initializeMediaPlayer() {
-        val dailog = LoadingDialog.get(this.requireActivity())
+        if (!player.isPlaying) {
+            val dailog = LoadingDialog.get(this.requireActivity())
 
-        dailog.show()
-        player = MediaPlayer()
-        val url = "http://159.65.180.178:8550/;live.mp3"
+            dailog.show()
+            val url = "http://159.65.180.178:8550/;live.mp3"
 //        val url = "https://s25.myradiostream.com/15102/listen.mp3"
-        try {
-            player.setDataSource(url)
-            player.prepareAsync()
-            player.setOnBufferingUpdateListener { _, percent ->  println(percent) }
-            player.setOnPreparedListener {
-                dailog.hide()
+            try {
+                player.setDataSource(url)
+                player.prepareAsync()
+                player.setOnBufferingUpdateListener { _, percent ->  println(percent) }
+                player.setOnPreparedListener {
+                    dailog.hide()
+                }
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            } catch (e: IllegalStateException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
             }
-        } catch (e: IllegalArgumentException) {
-            e.printStackTrace()
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
+        } else {
+            playing = true
         }
+
     }
 
     override fun onPlay() {
+
         startPlaying()
-        showNotification(R.drawable.ic_pause_black_24dp)
         playing = true
+        showNotification(R.drawable.ic_pause_black_24dp)
     }
 
     override fun onTrackPause() {
         pausePlaying()
-        showNotification(R.drawable.ic_play_arrow_black_24dp)
         playing = false
+        showNotification(R.drawable.ic_play_arrow_black_24dp)
     }
 
     override fun onPause() {
@@ -316,6 +343,29 @@ class PlayerFragment : Fragment(),  Playable {
             "pause" -> {
                 playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
                 showNotification(R.drawable.ic_play_arrow_black_24dp)
+            }
+            "dataCaptureSuccess" -> {
+                Dialog().makeSnack(binding.commentBtn, "Data capture successful", this.requireContext())
+                Prefs.putBoolean("first_time_comment", true)
+                dataDialog.dismiss()
+                val bottomSheet = CommentBottomSheet.newInstance(R.layout.comment_layout, viewModel)
+                bottomSheet?.show(this.requireActivity().supportFragmentManager.beginTransaction(), "dialog_comment")
+            }
+
+            "commentSubmitSuccess" -> {
+                println("success")
+            }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onErrorEvent(event: ErrorEvent) {
+
+        when(event.event) {
+            "dataCaptureError", "commentSaveError", "commentListError" -> {
+                Dialog().makeSnack(binding.commentBtn, event.message, this.requireContext())
             }
 
         }

@@ -13,12 +13,12 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.kodehauz.radiobasar.AboutFragment"
+        android:name="com.kodehauz.radiobasar.ui.fragment.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.kodehauz.radiobasar.ContactFragment"
+        android:name="com.kodehauz.radiobasar.ui.fragment.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
 
