@@ -8,9 +8,9 @@ class PlayerManager: MediaPlayer() {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: PlayerManager? = null
+        private var INSTANCE: MediaPlayer? = null
 
-        fun getPlayer(): PlayerManager? {
+        fun getPlayer(): MediaPlayer? {
             val tempInstance = INSTANCE
             // if the instance is not null use the already created instance
             // else if the instance is null, build an instance of MediaPlayer
@@ -18,7 +18,7 @@ class PlayerManager: MediaPlayer() {
                 return tempInstance
             }
             synchronized(this) {
-                var instance = PlayerManager()
+                var instance = MediaPlayer()
                 INSTANCE = instance
                 return instance
             }
