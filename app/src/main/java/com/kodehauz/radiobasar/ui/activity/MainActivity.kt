@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.app_nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration.Builder(navController.graph).build()
         NavigationUI.setupWithNavController(toolbar, navController)
-
-        volumeControlStream = AudioManager.STREAM_MUSIC
         toolbar.setOnMenuItemClickListener {
             return@setOnMenuItemClickListener when(it.itemId){
                 R.id.contactFragment -> {
@@ -59,6 +57,9 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        volumeControlStream = AudioManager.STREAM_MUSIC
+
 
     }
 }

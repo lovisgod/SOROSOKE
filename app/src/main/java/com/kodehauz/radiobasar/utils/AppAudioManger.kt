@@ -127,7 +127,8 @@ class AppAudioManger(val mediaPlayer: MediaPlayer, audioManger: AudioManager) {
             AudioManager.AUDIOFOCUS_GAIN)
         when (res) {
             AudioManager.AUDIOFOCUS_REQUEST_FAILED -> {
-
+                mediaPlayer.pause()
+                EventBus.getDefault().post(AppEvent(event = "pause"))
             }
             AudioManager.AUDIOFOCUS_REQUEST_GRANTED -> {
                 mediaPlayer.start()

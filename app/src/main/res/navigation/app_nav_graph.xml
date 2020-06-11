@@ -9,7 +9,8 @@
         android:id="@+id/playerFragment"
         android:name="com.kodehauz.radiobasar.ui.fragment.PlayerFragment"
         android:label="fragment_player"
-        tools:layout="@layout/fragment_player" />
+        tools:layout="@layout/fragment_player" >
+    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.kodehauz.radiobasar.AboutFragment"
@@ -20,4 +21,5 @@
         android:name="com.kodehauz.radiobasar.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
+
 </navigation>

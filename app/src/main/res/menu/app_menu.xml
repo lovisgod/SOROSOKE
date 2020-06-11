@@ -5,8 +5,7 @@
     <item
         android:id="@+id/aboutFragment"
         android:title="@string/about_us"
-        app:showAsAction="never"
-        />
+        app:showAsAction="never" />
     <item
         android:id="@+id/contactFragment"
         android:title="@string/contact_us"
