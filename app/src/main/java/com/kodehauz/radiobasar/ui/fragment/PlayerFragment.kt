@@ -133,8 +133,8 @@ class PlayerFragment : Fragment(),  Playable {
         binding.shareBtn.setOnClickListener {
             val myIntent = Intent(Intent.ACTION_SEND)
             myIntent.type = "text/plain"
-            myIntent.putExtra(Intent.EXTRA_SUBJECT, "RADIO BASAR")
-            val shareMessage = "download this app"
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, "RADIOBASSAR")
+            val shareMessage = "Get inspired daily, Listen to RadioBassar"
             myIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
             startActivity(Intent.createChooser(myIntent,"Share via"))
         }
