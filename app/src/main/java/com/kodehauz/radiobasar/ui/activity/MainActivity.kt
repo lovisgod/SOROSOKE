@@ -1,7 +1,9 @@
 package com.kodehauz.radiobasar.ui.activity
 
 import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
@@ -10,7 +12,9 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.appbar.AppBarLayout
 import com.kodehauz.radiobasar.R
-
+import com.kodehauz.radiobasar.models.MediaEvent
+import com.kodehauz.radiobasar.utils.AppAudioManger
+import org.greenrobot.eventbus.EventBus
 
 
 class MainActivity : AppCompatActivity() {
@@ -45,5 +49,27 @@ class MainActivity : AppCompatActivity() {
         volumeControlStream = AudioManager.STREAM_MUSIC
 
 
+    }
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK) {
+                EventBus.getDefault().post(MediaEvent(event = "mediaEvent", code = keyCode, keyEvent = event))
+            }
+            return super.onKeyDown(keyCode, event)
+        }
+        when (keyCode) {
+
+            KeyEvent.KEYCODE_HEADSETHOOK -> {
+                EventBus.getDefault().post(MediaEvent(event = "mediaEvent", code = keyCode, keyEvent = event))
+            }
+            KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                return true
+            }
+
+            KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                return  true
+            }
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }

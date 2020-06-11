@@ -1,11 +1,14 @@
 package com.kodehauz.radiobasar.utils
 
+import android.content.Context
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Handler
+import android.support.v4.media.session.MediaControllerCompat
+import android.support.v4.media.session.MediaSessionCompat
 import androidx.annotation.RequiresApi
 import com.kodehauz.radiobasar.models.AppEvent
 import org.greenrobot.eventbus.EventBus
@@ -81,6 +84,10 @@ class AppAudioManger(val mediaPlayer: MediaPlayer, audioManger: AudioManager) {
 
     private var delayedStopRunnable = Runnable {
        mediaPlayer.stop()
+    }
+
+    fun getMediaController(context: Context): MediaControllerCompat {
+        return MediaControllerCompat(context, MediaSessionCompat(context, "RADIOBASSAR").sessionToken)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

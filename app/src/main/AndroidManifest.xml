@@ -28,6 +28,11 @@
             android:enabled="true"
             android:exported="false">
         </receiver>
+        <receiver android:name="androidx.media.session.MediaButtonReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".ui.activity.MainActivity"/>
 
     </application>
