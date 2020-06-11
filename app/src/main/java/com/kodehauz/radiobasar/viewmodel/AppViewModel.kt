@@ -17,12 +17,16 @@ class AppViewModel(application: Application): ViewModel() {
 
     private val commentlist : MutableLiveData<ArrayList<com.kodehauz.radiobasar.models.Comment>> = MutableLiveData()
     val _commentList: LiveData<ArrayList<com.kodehauz.radiobasar.models.Comment>> get() = commentlist
+    private val installCount : MutableLiveData<Int> = MutableLiveData()
+    val _installCount: LiveData<Int> get() = installCount
     var commentString = ""
 
    val appRepo by application.inject<AppRepo> ()
 
     init {
         getAllComments()
+        registerInstalled()
+        getInstalledCount()
     }
 
 
@@ -31,6 +35,26 @@ class AppViewModel(application: Application): ViewModel() {
     }
 
     fun submitUserData(name: String, email:String) = appRepo.getUserDetails(name, email)
+
+    private fun registerInstalled() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            appRepo.registerUserCount()
+        }
+    }
+
+    private fun getInstalledCount() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            val response = appRepo.getUserCount()
+            response.addOnSuccessListener {
+                val count  = it.data!!["count"].toString().toInt(10)
+                installCount.postValue(count + 200)
+            }
+
+            response.addOnFailureListener{
+                println(it.message)
+            }
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun submitComment(comment: String) =
@@ -41,7 +65,7 @@ class AppViewModel(application: Application): ViewModel() {
         }
 
 
-    fun getAllComments() =
+    private fun getAllComments() =
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val comments   = appRepo.getUserComments()

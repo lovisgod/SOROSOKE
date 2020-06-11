@@ -24,6 +24,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -166,6 +167,10 @@ class PlayerFragment : Fragment(),  Playable {
             }
 
         }
+
+        viewModel._installCount.observe(viewLifecycleOwner, Observer {
+            binding.numbers.text = it.toString()
+        })
 
         if (player.isPlaying) {
             playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))

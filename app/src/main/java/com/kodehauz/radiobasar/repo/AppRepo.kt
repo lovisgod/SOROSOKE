@@ -12,6 +12,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.kodehauz.radiobasar.models.AppEvent
 import com.kodehauz.radiobasar.models.Comment
 import com.kodehauz.radiobasar.models.ErrorEvent
+import com.pixplicity.easyprefs.library.Prefs
 import org.greenrobot.eventbus.EventBus
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +36,17 @@ class AppRepo() {
     }
 
     fun registerUserCount() {
-        userCountRef.update("count", FieldValue.increment(1))
+        if (!Prefs.getBoolean("installed", false)) {
+            val response  =userCountRef.update("count", FieldValue.increment(1))
+            println(response)
+             response.addOnSuccessListener {
+                 Prefs.putBoolean("installed", true)
+             }
+
+            response.addOnFailureListener {
+                println(it.localizedMessage)
+            }
+        }
     }
 
     fun getUserCount(): Task<DocumentSnapshot> {
