@@ -23,6 +23,7 @@ class AppViewModel(application: Application): ViewModel() {
 
     init {
         getAllComments()
+        registerInstalled()
     }
 
 
@@ -31,6 +32,12 @@ class AppViewModel(application: Application): ViewModel() {
     }
 
     fun submitUserData(name: String, email:String) = appRepo.getUserDetails(name, email)
+
+    private fun registerInstalled() = viewModelScope.launch {
+        withContext(Dispatchers.IO) {
+            appRepo.registerUserCount()
+        }
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun submitComment(comment: String) =
@@ -41,7 +48,7 @@ class AppViewModel(application: Application): ViewModel() {
         }
 
 
-    fun getAllComments() =
+    private fun getAllComments() =
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val comments   = appRepo.getUserComments()
