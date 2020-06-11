@@ -13,17 +13,17 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -33,10 +33,10 @@ import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.databinding.FragmentPlayerBinding
 import com.kodehauz.radiobasar.models.AppEvent
 import com.kodehauz.radiobasar.models.ErrorEvent
+import com.kodehauz.radiobasar.models.MediaEvent
 import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
 import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
-
 import com.pixplicity.easyprefs.library.Prefs
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -177,6 +177,7 @@ class PlayerFragment : Fragment(),  Playable {
             showNotification(R.drawable.ic_pause_black_24dp)
             playing = true
         }
+
        return binding.root
     }
 
@@ -375,4 +376,26 @@ class PlayerFragment : Fragment(),  Playable {
 
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMediaEvent(event: MediaEvent) {
+        when (event.code) {
+
+            KeyEvent.KEYCODE_HEADSETHOOK -> {
+                if (player.isPlaying) {
+                    pausePlaying()
+                } else {
+                    startPlaying()
+                }
+            }
+            KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                appAudioManager.getMediaController(this.requireContext()).dispatchMediaButtonEvent(event.keyEvent)
+            }
+
+            KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                appAudioManager.getMediaController(this.requireContext()).dispatchMediaButtonEvent(event.keyEvent)
+            }
+        }
+    }
+
 }
