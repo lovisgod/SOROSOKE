@@ -11,9 +11,6 @@
     <string name="comment">comment</string>
     <string name="like_button">Like Button</string>
     <string name="share_button">Share Button</string>
-    <string name="az">AZ</string>
-    <string name="comment_sample">This is a comment that may have to break later</string>
-    <string name="hint_write_comment">Add comment</string>
     <string name="contact_us">Contact Us</string>
     <string name="please_fill_this_form_in_a_decent_manner">Please fill this form in a decent manner</string>
     <string name="full_name">Full Name</string>
@@ -22,4 +19,7 @@
     <string name="message">Message</string>
     <string name="submit_contact">Submit</string>
     <string name="save">Save</string>
+    <string name="hint_write_comment">comment</string>
+    <string name="az">az</string>
+    <string name="comment_sample">Comment here</string>
 </resources>

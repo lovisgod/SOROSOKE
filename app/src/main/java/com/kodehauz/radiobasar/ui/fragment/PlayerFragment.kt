@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
@@ -34,6 +35,7 @@ import com.kodehauz.radiobasar.models.ErrorEvent
 import com.kodehauz.radiobasar.ui.bottomSheet.CommentBottomSheet
 import com.kodehauz.radiobasar.utils.*
 import com.kodehauz.radiobasar.viewmodel.AppViewModel
+
 import com.pixplicity.easyprefs.library.Prefs
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -60,6 +62,7 @@ class PlayerFragment : Fragment(),  Playable {
     var initialProgressValue = 0
     val playerManager = PlayerManager()
     private lateinit var dataDialog: AlertDialog
+    private lateinit var mShare : Button
 
 
     private val viewModel: AppViewModel by lazy {
@@ -126,6 +129,15 @@ class PlayerFragment : Fragment(),  Playable {
             }
         }
 
+        binding.shareBtn.setOnClickListener {
+            val myIntent = Intent(Intent.ACTION_SEND)
+            myIntent.type = "text/plain"
+            myIntent.putExtra(Intent.EXTRA_SUBJECT, "RADIO BASAR")
+            val shareMessage = "download this app"
+            myIntent.putExtra(Intent.EXTRA_TEXT, shareMessage)
+            startActivity(Intent.createChooser(myIntent,"Share via"))
+        }
+
         binding.sound.setOnClickListener {
             if ( muted ) {
                 appAudioManager.unMuteVolume(audioManager)
@@ -167,6 +179,10 @@ class PlayerFragment : Fragment(),  Playable {
         playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             appAudioManager.requestFocus(audioManager)
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            appAudioManager.requestFocusLowerVersion(audioManager)
         }
 //        player.start()
         playing = true
