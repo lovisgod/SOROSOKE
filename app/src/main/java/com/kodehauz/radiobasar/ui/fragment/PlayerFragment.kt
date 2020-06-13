@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.github.loadingview.LoadingDialog
+import com.kodehauz.radiobasar.Environment
 import com.kodehauz.radiobasar.MainApplication
 import com.kodehauz.radiobasar.R
 import com.kodehauz.radiobasar.databinding.FragmentPlayerBinding
@@ -207,7 +208,7 @@ class PlayerFragment : Fragment(),  Playable {
             val dailog = LoadingDialog.get(this.requireActivity())
 
             dailog.show()
-            val url = "http://159.65.180.178:8550/;live.mp3"
+            val url = Environment.RADIO_URL
 //        val url = "https://s25.myradiostream.com/15102/listen.mp3"
             try {
                 player.setDataSource(url)
@@ -279,7 +280,6 @@ class PlayerFragment : Fragment(),  Playable {
             )
             notificationManager?.cancalNotifications()
         }
-//        player.release()
         this.requireActivity().unregisterReceiver(broadcastReceiver)
     }
 
