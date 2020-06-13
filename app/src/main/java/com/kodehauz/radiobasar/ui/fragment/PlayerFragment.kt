@@ -288,11 +288,11 @@ class PlayerFragment : Fragment(),  Playable {
             val notificationChannel = NotificationChannel(
                 channelId,
                 channelName,
-                NotificationManager.IMPORTANCE_HIGH
+                NotificationManager.IMPORTANCE_DEFAULT
             )
             notificationChannel.enableLights(true)
             notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(true)
+            notificationChannel.enableVibration(false)
             notificationChannel.description = "Listening to radio"
 
             val notificationManager = this.requireContext().getSystemService(
