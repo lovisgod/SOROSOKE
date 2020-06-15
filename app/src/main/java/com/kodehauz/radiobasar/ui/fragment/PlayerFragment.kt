@@ -44,6 +44,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.IOException
+import java.lang.Exception
 
 
 /**
@@ -157,7 +158,6 @@ class PlayerFragment : Fragment(),  Playable {
         binding.commentBtn.setOnClickListener{
             val firstTimeComment = Prefs.getBoolean("first_time_comment", false)
             if (!firstTimeComment){
-                println(firstTimeComment)
                 dataDialog = Dialog().displayInputContactDialog(this.requireContext(), viewModel)!!
                 dataDialog.show()
             } else {
@@ -265,7 +265,7 @@ class PlayerFragment : Fragment(),  Playable {
         player.seekTo(0)
         println(player.isPlaying)
         if (player.isPlaying) {
-            println("Am getting angry")
+
         }
         // registers the event listener
         EventBus.getDefault().register(this)
@@ -284,22 +284,27 @@ class PlayerFragment : Fragment(),  Playable {
     }
 
     private fun createChannel(channelId: String, channelName: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(
-                channelId,
-                channelName,
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(false)
-            notificationChannel.description = "Listening to radio"
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val notificationChannel = NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_DEFAULT
+                )
+                notificationChannel.enableLights(true)
+                notificationChannel.lightColor = Color.RED
+                notificationChannel.enableVibration(false)
+                notificationChannel.description = "Listening to radio"
 
-            val notificationManager = this.requireContext().getSystemService(
-                NotificationManager::class.java
-            )
-            notificationManager?.createNotificationChannel(notificationChannel)
+                val notificationManager = this.requireContext().getSystemService(
+                    NotificationManager::class.java
+                )
+                notificationManager?.createNotificationChannel(notificationChannel)
+            }
+        } catch (e: Exception) {
+            println(e.localizedMessage)
         }
+
 
 
     }

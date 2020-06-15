@@ -59,7 +59,7 @@
             android:background="@drawable/bottom_border"
             android:textSize="20sp"
             android:layout_height="match_parent"
-            android:inputType="phone"
+            android:inputType="textEmailAddress"
             android:hint="Please Enter Your Email" />
 
     </com.google.android.material.textfield.TextInputLayout>

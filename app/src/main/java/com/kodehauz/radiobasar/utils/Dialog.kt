@@ -33,7 +33,6 @@ class Dialog {
 
     }
 
-    @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.M)
     fun displayInputContactDialog(context: Context, viewmodel: AppViewModel): AlertDialog? {
         val builder = AlertDialog.Builder(context)
