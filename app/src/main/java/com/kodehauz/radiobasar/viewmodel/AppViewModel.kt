@@ -46,8 +46,10 @@ class AppViewModel(application: Application): ViewModel() {
         withContext(Dispatchers.IO) {
             val response = appRepo.getUserCount()
             response.addOnSuccessListener {
-                val count  = it.data!!["count"].toString().toInt(10)
-                installCount.postValue(count + 200)
+                it.data?.let {
+                    val count  =  it["count"].toString().toInt(10)
+                    installCount.postValue(count + 200)
+                }
             }
 
             response.addOnFailureListener{
@@ -88,7 +90,7 @@ class AppViewModel(application: Application): ViewModel() {
                             commentlist.postValue(commentList)
                         }
                     }
-                comments.addSnapshotListener { querySnapShot, excception ->
+                comments.addSnapshotListener { querySnapShot, exception ->
                     if (querySnapShot != null) {
                         val commentList = ArrayList<com.kodehauz.radiobasar.models.Comment>()
                         for (document in querySnapShot) {

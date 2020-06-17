@@ -14,9 +14,6 @@ import java.lang.Exception
 // Notification ID.
 private val NOTIFICATION_ID = 2
 private val REQUEST_CODE = 0
-private val FLAGS = 0
-private val ACTION_PLAY = "PLAY"
-private val ACTION_PAUSE = "PAUSE"
 
 
 // TODO: Step 1.1 extension function to send messages (GIVEN)
@@ -87,7 +84,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
 
 
-        // nptify gets two parameters the notification id and the builder
+        // notify gets two parameters the notification id and the builder
         notify(NOTIFICATION_ID, builder.build())
     } catch (e:Exception) {
         println("this is the error ${e.localizedMessage}")

@@ -32,13 +32,13 @@ class AppRepo() {
             .addOnFailureListener {
                 EventBus.getDefault()
                     .post(ErrorEvent(event = "dataCaptureError", message = it.message!!))
+                println(it.localizedMessage)
             }
     }
 
     fun registerUserCount() {
         if (!Prefs.getBoolean("installed", false)) {
             val response  =userCountRef.update("count", FieldValue.increment(1))
-            println(response)
              response.addOnSuccessListener {
                  Prefs.putBoolean("installed", true)
              }

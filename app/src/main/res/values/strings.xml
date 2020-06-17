@@ -22,4 +22,7 @@
     <string name="hint_write_comment">comment</string>
     <string name="az">az</string>
     <string name="comment_sample">Comment here</string>
+    <string name="please_enter_your_name">Please Enter Your Name</string>
+    <string name="please_enter_your_email">Please Enter Your Email</string>
+    <string name="please_enter_your_details">Please Enter Your Details</string>
 </resources>

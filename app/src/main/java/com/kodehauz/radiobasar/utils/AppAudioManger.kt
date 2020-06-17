@@ -45,12 +45,6 @@ class AppAudioManger(val mediaPlayer: MediaPlayer, audioManger: AudioManager) {
     }
 
 
-//    companion object {
-//        @JvmStatic
-//        fun newInstance() =
-//            AppAudioManger()
-//    }
-
 
     private val handler = Handler()
     private val afChangeListener = AudioManager.OnAudioFocusChangeListener { focusChange ->
@@ -127,7 +121,7 @@ class AppAudioManger(val mediaPlayer: MediaPlayer, audioManger: AudioManager) {
 
     fun requestFocusLowerVersion (audioManger: AudioManager) {
 
-        val res = audioManger.requestAudioFocus(  afChangeListener,
+        val res = audioManger.requestAudioFocus( afChangeListener,
             // Use the music stream.
             AudioManager.STREAM_MUSIC,
             // Request permanent focus.

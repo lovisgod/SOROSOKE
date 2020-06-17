@@ -64,9 +64,7 @@ class PlayerFragment : Fragment(),  Playable {
     val ACTION_PLAY = "PLAY"
     val ACTION_PAUSE = "PAUSE"
     var initialProgressValue = 0
-//    val playerManager = PlayerManager()
     private lateinit var dataDialog: AlertDialog
-    private lateinit var mShare : Button
 
 
     private val viewModel: AppViewModel by lazy {

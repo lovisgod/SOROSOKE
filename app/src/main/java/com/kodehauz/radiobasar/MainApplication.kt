@@ -27,5 +27,7 @@ class MainApplication: Application() {
             androidContext(applicationContext)
             modules(listOf(appModule))
         }
+
     }
+
 }

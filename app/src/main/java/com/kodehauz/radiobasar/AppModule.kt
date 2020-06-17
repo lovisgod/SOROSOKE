@@ -6,7 +6,4 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { AppRepo() }
-//    single { Network }
-//    single { getDatabase(androidContext()) }
-//    single { BusinessRepo(get(), get()) }
 }
