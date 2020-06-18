@@ -140,17 +140,22 @@ class PlayerFragment : Fragment(),  Playable {
         }
 
         binding.sound.setOnClickListener {
-            if ( muted ) {
-                appAudioManager.unMuteVolume(audioManager)
-                muted = false
-                binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
+            try {
+                if ( muted ) {
+                    appAudioManager.unMuteVolume(audioManager)
+                    muted = false
+                    binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
+                }
+
+                else {
+                    appAudioManager.muteVolume(audioManager)
+                    muted = true
+                    binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.redcolor), PorterDuff.Mode.SRC_ATOP);
+                }
+            } catch (e: Exception) {
+                println(e.localizedMessage)
             }
 
-            else {
-                appAudioManager.muteVolume(audioManager)
-                muted = true
-                binding.sound.setColorFilter(this.requireContext().resources.getColor(R.color.redcolor), PorterDuff.Mode.SRC_ATOP);
-            }
         }
 
         binding.commentBtn.setOnClickListener{
