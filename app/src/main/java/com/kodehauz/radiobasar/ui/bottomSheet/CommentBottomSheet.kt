@@ -63,9 +63,13 @@ class CommentBottomSheet(var layout: Int, var viewmodel: AppViewModel): BottomSh
             val comment_input: TextInputEditText = view.findViewById(R.id.input_comment)
             val sendBtn : ShapeableImageView = view.findViewById(R.id.sent_icon)
             sendBtn.setOnClickListener {
-                println(comment_input.text.toString())
-                viewmodel.submitComment(comment = comment_input.text.toString())
-                comment_input.setText("")
+                if ( comment_input.text.toString().isEmpty()) {
+                    comment_input.setError("comment cannot be empty")
+                } else {
+                    viewmodel.submitComment(comment = comment_input.text.toString())
+                    comment_input.setText("")
+                }
+
             }
         }
 

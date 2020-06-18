@@ -26,7 +26,25 @@ class AppRepo() {
     fun getUserDetails(name: String, email: String) {
         auth.createUserWithEmailAndPassword(email, name)
             .addOnSuccessListener {
-                println(it.user?.email)
+                EventBus.getDefault().post(AppEvent(event = "dataCaptureSuccess"))
+            }
+            .addOnFailureListener { message ->
+                message.localizedMessage.let {
+                    if (it!!.contains("The email address is already in use by another account.")) {
+                        loginUser(name, email)
+                    } else {
+                        EventBus.getDefault()
+                            .post(ErrorEvent(event = "dataCaptureError", message = message.message!!))
+                        println(message.localizedMessage)
+                    }
+                }
+
+            }
+    }
+
+    fun loginUser(name: String, email: String) {
+        auth.signInWithEmailAndPassword(email, name)
+            .addOnSuccessListener {
                 EventBus.getDefault().post(AppEvent(event = "dataCaptureSuccess"))
             }
             .addOnFailureListener {

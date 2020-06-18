@@ -187,7 +187,6 @@ class PlayerFragment : Fragment(),  Playable {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
             appAudioManager.requestFocusLowerVersion(audioManager)
         }
-//        player.start()
         playing = true
         showNotification(R.drawable.ic_pause_black_24dp)
     }
@@ -208,6 +207,7 @@ class PlayerFragment : Fragment(),  Playable {
             dailog.show()
             val url = Environment.RADIO_URL
 //        val url = "https://s25.myradiostream.com/15102/listen.mp3"
+//            val url = "https://res.cloudinary.com/psirius-eem/video/upload/v1589929806/Psirius%20Radio/Kiss_Daniel_Gobe_9jaflaver.com_.mp3"
             try {
                 player.setDataSource(url)
                 player.prepareAsync()
@@ -215,12 +215,25 @@ class PlayerFragment : Fragment(),  Playable {
                 player.setOnPreparedListener {
                     dailog.hide()
                 }
+
+                player.setOnCompletionListener(object: MediaPlayer.OnCompletionListener {
+                    override fun onCompletion(p0: MediaPlayer?) {
+                      player.stop()
+                        playButton.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+                        playing = false
+                        showNotification(R.drawable.ic_play_arrow_black_24dp)
+                    }
+
+                })
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
+                dailog.hide()
             } catch (e: IllegalStateException) {
                 e.printStackTrace()
+                dailog.hide()
             } catch (e: IOException) {
                 e.printStackTrace()
+                dailog.hide()
             }
         } else {
             playing = true
@@ -251,16 +264,13 @@ class PlayerFragment : Fragment(),  Playable {
 
     override fun onStop() {
         super.onStop()
-        if (player.isPlaying) {
-
-        }
         // unregister the event listener
         EventBus.getDefault().unregister(this)
     }
 
     override fun onStart() {
         super.onStart()
-        player.seekTo(0)
+//        player.seekTo(0)
         println(player.isPlaying)
         if (player.isPlaying) {
 
@@ -377,7 +387,7 @@ class PlayerFragment : Fragment(),  Playable {
     fun onErrorEvent(event: ErrorEvent) {
 
         when(event.event) {
-            "dataCaptureError", "commentSaveError", "commentListError" -> {
+            "dataCaptureError", "commentSaveError" -> {
                 Dialog().makeSnack(binding.commentBtn, event.message, this.requireContext())
             }
 

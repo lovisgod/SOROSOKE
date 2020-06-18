@@ -112,7 +112,7 @@ class AppViewModel(application: Application): ViewModel() {
 
                 comments.get().addOnFailureListener {
                     EventBus.getDefault()
-                        .post(ErrorEvent(event = "commentListError", message = "${it.message!!}, Please Input your permission to have access"))
+                        .post(ErrorEvent(event = "commentListError", message = it.message!!))
                 }
             }
         }

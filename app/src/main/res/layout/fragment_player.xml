@@ -15,6 +15,18 @@
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
+       <ScrollView
+           android:id="@+id/scrolling"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_constraintTop_toTopOf="parent"
+           android:layout_marginBottom="40dp"
+           app:layout_constraintBottom_toTopOf="@+id/bottom_layout">
+
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
 
        <ImageView
            android:id="@+id/sound_"
@@ -109,6 +121,9 @@
            app:layout_constraintEnd_toEndOf="parent"
            android:contentDescription="@string/play" />
 
+           </androidx.constraintlayout.widget.ConstraintLayout>
+
+       </ScrollView>
 
        <androidx.constraintlayout.widget.ConstraintLayout
            android:id="@+id/bottom_layout"
