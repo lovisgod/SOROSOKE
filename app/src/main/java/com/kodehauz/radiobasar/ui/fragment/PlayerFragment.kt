@@ -64,6 +64,7 @@ class PlayerFragment : Fragment(),  Playable {
     val ACTION_PLAY = "PLAY"
     val ACTION_PAUSE = "PAUSE"
     var initialProgressValue = 0
+    private var stopped: Boolean = false
     private lateinit var dataDialog: AlertDialog
 
 
@@ -185,13 +186,24 @@ class PlayerFragment : Fragment(),  Playable {
 
     private fun startPlaying() {
         playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            appAudioManager.requestFocus(audioManager)
+
+        if (!stopped) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                appAudioManager.requestFocus(audioManager)
+            }
+
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+                appAudioManager.requestFocusLowerVersion(audioManager)
+            }
+        } else if (!stopped && !playing) {
+            println("getting here here here here")
+            player.start()
+            playing = true
+        } else {
+            println("getting here wrongly")
+            initializeMediaPlayer()
         }
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-            appAudioManager.requestFocusLowerVersion(audioManager)
-        }
         playing = true
         showNotification(R.drawable.ic_pause_black_24dp)
     }
@@ -209,27 +221,37 @@ class PlayerFragment : Fragment(),  Playable {
         if (!player.isPlaying ) {
             val dailog = LoadingDialog.get(this.requireActivity())
 
-            dailog.show()
-            val url = Environment.RADIO_URL
+            if (!stopped) {
+                dailog.show()
+            }
+
+//            val url = Environment.RADIO_URL
 //        val url = "https://s25.myradiostream.com/15102/listen.mp3"
-//            val url = "https://res.cloudinary.com/psirius-eem/video/upload/v1589929806/Psirius%20Radio/Kiss_Daniel_Gobe_9jaflaver.com_.mp3"
+            val url = "https://res.cloudinary.com/psirius-eem/video/upload/v1589929806/Psirius%20Radio/Kiss_Daniel_Gobe_9jaflaver.com_.mp3"
             try {
                 player.setDataSource(url)
                 player.prepareAsync()
                 player.setOnBufferingUpdateListener { _, percent ->  println(percent) }
                 player.setOnPreparedListener {
-                    dailog.hide()
-                }
-
-                player.setOnCompletionListener(object: MediaPlayer.OnCompletionListener {
-                    override fun onCompletion(p0: MediaPlayer?) {
-                      player.stop()
-                        playButton.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
-                        playing = false
-                        showNotification(R.drawable.ic_play_arrow_black_24dp)
+                    if (!stopped) {
+                        dailog.hide()
+                    } else {
+                        it.start()
+                        playing = true
+                        stopped = false
                     }
 
-                })
+                }
+
+                player.setOnCompletionListener { p0 ->
+                    //  player.stop()
+                    p0?.stop()
+                    p0.reset()
+                    playButton.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+                    playing = false
+                    stopped = true
+                    showNotification(R.drawable.ic_play_arrow_black_24dp)
+                }
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
                 dailog.hide()
