@@ -29,7 +29,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-         buildConfigField "String", "RADIO_URL", '"http://159.65.180.178:8550/;live.mp3"'
+         buildConfigField "String", "RADIO_URL", '"https://s25.myradiostream.com/15102/listen.mp3"'
         }
 
         debug {

@@ -65,6 +65,7 @@ class PlayerFragment : Fragment(),  Playable {
     val ACTION_PAUSE = "PAUSE"
     var initialProgressValue = 0
     private var stopped: Boolean = false
+    private var pausedAudioLoss = false
     private lateinit var dataDialog: AlertDialog
 
 
@@ -187,20 +188,13 @@ class PlayerFragment : Fragment(),  Playable {
     private fun startPlaying() {
         playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_pause_stop))
 
-        if (!stopped) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                appAudioManager.requestFocus(audioManager)
-            }
 
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-                appAudioManager.requestFocusLowerVersion(audioManager)
-            }
+        if (!stopped) {
+            makeFocus()
         } else if (!stopped && !playing) {
-            println("getting here here here here")
             player.start()
             playing = true
         } else {
-            println("getting here wrongly")
             initializeMediaPlayer()
         }
 
@@ -209,7 +203,6 @@ class PlayerFragment : Fragment(),  Playable {
     }
 
     private fun pausePlaying() {
-
             playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
             player.pause()
             playing = false
@@ -225,9 +218,9 @@ class PlayerFragment : Fragment(),  Playable {
                 dailog.show()
             }
 
-//            val url = Environment.RADIO_URL
+            val url = Environment.RADIO_URL
 //        val url = "https://s25.myradiostream.com/15102/listen.mp3"
-            val url = "https://res.cloudinary.com/psirius-eem/video/upload/v1589929806/Psirius%20Radio/Kiss_Daniel_Gobe_9jaflaver.com_.mp3"
+//            val url = "https://res.cloudinary.com/psirius-eem/video/upload/v1589929806/Psirius%20Radio/Kiss_Daniel_Gobe_9jaflaver.com_.mp3"
             try {
                 player.setDataSource(url)
                 player.prepareAsync()
@@ -244,7 +237,7 @@ class PlayerFragment : Fragment(),  Playable {
                 }
 
                 player.setOnCompletionListener { p0 ->
-                    //  player.stop()
+                    println("gettting here i dint know")
                     p0?.stop()
                     p0.reset()
                     playButton.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
@@ -252,6 +245,8 @@ class PlayerFragment : Fragment(),  Playable {
                     stopped = true
                     showNotification(R.drawable.ic_play_arrow_black_24dp)
                 }
+
+
             } catch (e: IllegalArgumentException) {
                 e.printStackTrace()
                 dailog.hide()
@@ -392,6 +387,7 @@ class PlayerFragment : Fragment(),  Playable {
         when(event.event) {
             "pause" -> {
                 playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+                pausedAudioLoss = true
                 showNotification(R.drawable.ic_play_arrow_black_24dp)
             }
             "dataCaptureSuccess" -> {
@@ -439,6 +435,16 @@ class PlayerFragment : Fragment(),  Playable {
             KeyEvent.KEYCODE_MEDIA_PAUSE -> {
                 appAudioManager.getMediaController(this.requireContext()).dispatchMediaButtonEvent(event.keyEvent)
             }
+        }
+    }
+
+    fun makeFocus() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            appAudioManager.requestFocus(audioManager)
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
+            appAudioManager.requestFocusLowerVersion(audioManager)
         }
     }
 
