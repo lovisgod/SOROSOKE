@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.io.IOException
-import java.lang.Exception
+import kotlin.Exception
 
 
 /**
@@ -121,14 +121,18 @@ class PlayerFragment : Fragment(),  Playable {
         this.requireActivity().startService(Intent(this.requireActivity().baseContext, OnClearFromRecentService::class.java))
         playButton = binding.play
         playButton.setOnClickListener {
-            if (playing) {
-                pausePlaying()
-                playing = false
-                println(playing)
-            } else {
-                startPlaying()
-                playing = true
-                println(playing)
+            try {
+                if (playing) {
+                    pausePlaying()
+                    playing = false
+                    println(playing)
+                } else {
+                    startPlaying()
+                    playing = true
+                    println(playing)
+                }
+            } catch (e: Exception) {
+                println(e.localizedMessage)
             }
         }
 
@@ -212,7 +216,7 @@ class PlayerFragment : Fragment(),  Playable {
 
     private fun initializeMediaPlayer() {
         if (!player.isPlaying ) {
-            val dailog = LoadingDialog.get(this.requireActivity())
+            val dailog = LoadingDialog[this.requireActivity()]
 
             if (!stopped) {
                 dailog.show()
@@ -237,7 +241,6 @@ class PlayerFragment : Fragment(),  Playable {
                 }
 
                 player.setOnCompletionListener { p0 ->
-                    println("gettting here i dint know")
                     p0?.stop()
                     p0.reset()
                     playButton.setImageDrawable(requireContext().resources.getDrawable(R.drawable.ic_buttonplay))

@@ -1,11 +1,13 @@
 package com.kodehauz.radiobasar.viewmodel
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.kodehauz.radiobasar.models.ErrorEvent
 import com.kodehauz.radiobasar.repo.AppRepo
+import com.kodehauz.radiobasar.utils.HtmlLoader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,8 +22,14 @@ class AppViewModel(application: Application): ViewModel() {
     private val installCount : MutableLiveData<Int> = MutableLiveData()
     val _installCount: LiveData<Int> get() = installCount
     var commentString = ""
+    private val _aboutString : MutableLiveData<String> = MutableLiveData()
+    val aboutString: LiveData<String> get() = _aboutString
+
+    private val _priceString : MutableLiveData<String> = MutableLiveData()
+    val priceString: LiveData<String> get() = _priceString
 
    val appRepo by application.inject<AppRepo> ()
+   val htmlLoader by application.inject<HtmlLoader> ()
 
     init {
         getAllComments()
@@ -30,8 +38,24 @@ class AppViewModel(application: Application): ViewModel() {
     }
 
 
-    fun setCommentString() {
-        commentString = ""
+     fun loadHtml(name: String, context: Context) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                try{
+                    val html = htmlLoader.loader(context, name)
+                    if (name == "about.html") {
+
+                        _aboutString.postValue(html)
+                    }
+
+                    if (name == "price.html") {
+                        _priceString.postValue(html)
+                    }
+                } catch(e: Exception) {
+                    println(e.localizedMessage)
+                }
+            }
+        }
     }
 
     fun submitUserData(name: String, email:String) = appRepo.getUserDetails(name, email)
