@@ -40,14 +40,9 @@ class ContactFragment : Fragment() {
             if (userEmail.text.toString().isEmpty() ||
                 userName.text.toString().isEmpty() || usermessage.text.toString().isEmpty()) {
               setError(arrayOf(userName, userEmail, usermessage))
-//              setError(userName)
-//              setError(usermessage)
             } else {
                 sendEmail(userName.text.toString(), usermessage.text.toString())
                 setEmpty(arrayOf(userEmail, userName, usermessage))
-//                userName.setText("")
-//                userEmail.setText("")
-//                usermessage.setText("")
             }
         }
         return view
