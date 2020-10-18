@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "847057691550",
-    "firebase_url": "https://radiobassar.firebaseio.com",
-    "project_id": "radiobassar",
-    "storage_bucket": "radiobassar.appspot.com"
+    "project_number": "904145041788",
+    "firebase_url": "https://sorosoke-be1ab.firebaseio.com",
+    "project_id": "sorosoke-be1ab",
+    "storage_bucket": "sorosoke-be1ab.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847057691550:android:7667b5b8b27045e71eac8f",
+        "mobilesdk_app_id": "1:904145041788:android:bb4019c996266d930a0cf9",
         "android_client_info": {
-          "package_name": "com.kodehauz.radiobasar"
+          "package_name": "com.lovisgod.sorosoke"
         }
       },
       "oauth_client": [
         {
-          "client_id": "847057691550-aod4buufims9avhnq2v2iblmts0dde0p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kodehauz.radiobasar",
-            "certificate_hash": "f029de9f20dd4e3769b79f6d4b2dba9a21ea52a7"
-          }
-        },
-        {
-          "client_id": "847057691550-7f5euqgvmrpesadn6tpj60sukfnq6l2v.apps.googleusercontent.com",
+          "client_id": "904145041788-icqf2cedvbs2qtq97ha0tgfubp1gnemo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB2JviUalmodcOw4nJOK42qDhppVFE_tx8"
+          "current_key": "AIzaSyBjlHo-_-zeT4XfjBpDW1Xy0KJ4tA8omi4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "847057691550-7f5euqgvmrpesadn6tpj60sukfnq6l2v.apps.googleusercontent.com",
+              "client_id": "904145041788-icqf2cedvbs2qtq97ha0tgfubp1gnemo.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

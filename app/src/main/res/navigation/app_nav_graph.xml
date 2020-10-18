@@ -7,18 +7,18 @@
 
     <fragment
         android:id="@+id/playerFragment"
-        android:name="com.kodehauz.radiobasar.ui.fragment.PlayerFragment"
+        android:name="com.lovisgod.sorosoke.ui.fragment.PlayerFragment"
         android:label="fragment_player"
         tools:layout="@layout/fragment_player" >
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.kodehauz.radiobasar.ui.fragment.AboutFragment"
+        android:name="com.lovisgod.sorosoke.ui.fragment.AboutFragment"
         android:label="fragment_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.kodehauz.radiobasar.ui.fragment.ContactFragment"
+        android:name="com.lovisgod.sorosoke.ui.fragment.ContactFragment"
         android:label="fragment_contact"
         tools:layout="@layout/fragment_contact" />
 

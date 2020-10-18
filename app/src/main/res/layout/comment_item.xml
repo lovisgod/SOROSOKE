@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="com.kodehauz.radiobasar.viewmodel.AppViewModel" />
+            type="com.lovisgod.sorosoke.viewmodel.AppViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/comment_la"

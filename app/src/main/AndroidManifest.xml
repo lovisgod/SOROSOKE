@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kodehauz.radiobasar">
+    package="com.lovisgod.sorosoke">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
-        android:name=".MainApplication"
+        android:name="com.lovisgod.sorosoke.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_new_main_radio_icon"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_new_main_radio_icon"
+        android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.SplashActivity" >
+        <activity android:name="com.lovisgod.sorosoke.ui.activity.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +24,7 @@
         </activity>
 
         <receiver
-            android:name=".utils.NotificationActionService"
+            android:name="com.lovisgod.sorosoke.utils.NotificationActionService"
             android:enabled="true"
             android:exported="false">
         </receiver>
@@ -33,7 +33,7 @@
                 <action android:name="android.intent.action.MEDIA_BUTTON" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.activity.MainActivity"
+        <activity android:name="com.lovisgod.sorosoke.ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"/>
 
     </application>
