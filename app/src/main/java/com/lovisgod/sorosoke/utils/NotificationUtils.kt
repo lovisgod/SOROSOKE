@@ -54,7 +54,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
         val radioImage =  BitmapFactory.decodeResource(
             applicationContext.resources,
-            R.drawable.man_
+            R.drawable.hand
         )
 
         //  get an instance of NotificationCompat.Builder
@@ -62,7 +62,7 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         val builder = NotificationCompat.Builder(
             applicationContext, applicationContext.resources.getString(R.string.radio_notification_channel_id)
         )
-            .setSmallIcon(R.drawable.ic_basar_icon)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setLargeIcon(radioImage)
             .setContentTitle(applicationContext.
             resources.getString(R.string.notification_title))
