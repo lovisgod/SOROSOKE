@@ -392,7 +392,7 @@ class PlayerFragment : Fragment(),  Playable {
 
         when(event.event) {
             "pause" -> {
-                playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_buttonplay))
+                playButton.setImageDrawable(this.requireContext().resources.getDrawable(R.drawable.ic_play))
                 pausedAudioLoss = true
                 showNotification(R.drawable.ic_play_arrow_black_24dp)
             }
